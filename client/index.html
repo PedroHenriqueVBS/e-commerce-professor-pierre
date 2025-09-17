@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-commerce</title>
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/catalog.css">
+</head>
+<body>
+  <header>
+    <h1>Minha Loja</h1>
+    <nav>
+      <a href="cart.html">🛒 Carrinho</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Catálogo de Produtos</h2>
+    <section id="filters">
+      <input type="text" id="search" placeholder="Buscar produto...">
+      <select id="sort">
+        <option value="">Ordenar</option>
+        <option value="price-asc">Preço: menor → maior</option>
+        <option value="price-desc">Preço: maior → menor</option>
+      </select>
+    </section>
+    <section id="catalog"></section>
+  </main>
+
+  <script type="module" src="assets/js/app.js"></script>
+</body>
+</html>

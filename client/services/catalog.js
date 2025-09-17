@@ -1,0 +1,1 @@
+// responsável só por renderizar os cards

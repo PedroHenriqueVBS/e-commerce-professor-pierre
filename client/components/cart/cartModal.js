@@ -12,10 +12,8 @@ export function showCartModal() {
   }
   renderCartModal(modal);
   modal.style.display = 'block';
-  // permite animação do drawer
   requestAnimationFrame(() => modal.classList.add('open'));
 
-  // fechar clicando fora do drawer
   modal.addEventListener('click', (e) => {
     if (e.target.id === 'cart-modal') hideCartModal();
   }, { once:true });
@@ -25,7 +23,6 @@ export function hideCartModal() {
   const modal = document.getElementById('cart-modal');
   if (!modal) return;
   modal.classList.remove('open');
-  // espera a transição para esconder
   setTimeout(() => modal.style.display = 'none', 280);
 }
 
@@ -77,7 +74,6 @@ function renderCartModal(modal) {
     </div>
   `;
 
-  // ações
   modal.querySelector('#close-cart').onclick = hideCartModal;
 
   const clearBtn = modal.querySelector('#clear-cart');
@@ -85,7 +81,6 @@ function renderCartModal(modal) {
     clearBtn.onclick = () => { Cart.clear(); renderCartModal(modal); };
   }
 
-  // remover item
   modal.querySelectorAll('.item-remove').forEach(btn => {
     btn.onclick = () => {
       const li = btn.closest('.cart-item');
@@ -95,7 +90,6 @@ function renderCartModal(modal) {
     };
   });
 
-  // aumentar/diminuir
   modal.querySelectorAll('.increase-qty').forEach(btn => {
     btn.onclick = () => {
       const li = btn.closest('.cart-item');
@@ -121,7 +115,6 @@ function renderCartModal(modal) {
     };
   });
 
-  // checkout (placeholder)
   const checkout = modal.querySelector('#checkout');
   if (checkout){
     checkout.onclick = () => {

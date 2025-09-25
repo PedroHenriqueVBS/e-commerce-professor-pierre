@@ -1,5 +1,7 @@
 import Cart from './cart.js';
 
+const BRL = new Intl.NumberFormat('pt-BR', { style:'currency', currency:'BRL' });
+
 export function showCartModal() {
   let modal = document.getElementById('cart-modal');
   if (!modal) {
@@ -10,63 +12,120 @@ export function showCartModal() {
   }
   renderCartModal(modal);
   modal.style.display = 'block';
+  // permite animação do drawer
+  requestAnimationFrame(() => modal.classList.add('open'));
+
+  // fechar clicando fora do drawer
+  modal.addEventListener('click', (e) => {
+    if (e.target.id === 'cart-modal') hideCartModal();
+  }, { once:true });
 }
 
 export function hideCartModal() {
   const modal = document.getElementById('cart-modal');
-  if (modal) modal.style.display = 'none';
+  if (!modal) return;
+  modal.classList.remove('open');
+  // espera a transição para esconder
+  setTimeout(() => modal.style.display = 'none', 280);
+}
+
+function subtotal(items){
+  return items.reduce((acc, it) => acc + (it.price * it.quantity), 0);
 }
 
 function renderCartModal(modal) {
   const items = Cart.getItems();
+  const total = subtotal(items);
+
   modal.innerHTML = `
     <div class="cart-modal-content">
-      <h2>Carrinho</h2>
-      <button class="close-cart" id="close-cart">&times;</button>
+      <div class="cart-header">
+        <h2>Seu carrinho ${items.length ? `<small style="color:var(--muted)">(${items.length} item${items.length>1?'s':''})</small>` : ''}</h2>
+        <button class="close-cart" id="close-cart" aria-label="Fechar">&times;</button>
+      </div>
+
       <ul class="cart-list">
-        ${items.length === 0 ? '<li>Carrinho vazio</li>' : items.map(item => `
-          <li>
+        ${items.length === 0 ? `
+          <li class="cart-empty">Carrinho vazio</li>
+        ` : items.map(item => `
+          <li class="cart-item" data-id="${item.id}">
             <img src="${item.image}" alt="${item.name}" class="cart-img" />
-            <span>${item.name}</span>
-            <div class="cart-qty-controls">
-              <button class="decrease-qty" data-id="${item.id}">−</button>
-              <span class="cart-qty">${item.quantity}</span>
-              <button class="increase-qty" data-id="${item.id}">+</button>
+            <div class="cart-info">
+              <strong>${item.name}</strong>
+              <span>${BRL.format(item.price)}</span>
+              <div class="cart-qty-controls">
+                <button class="qty-btn decrease-qty" aria-label="Diminuir">−</button>
+                <span class="cart-qty">${item.quantity}</span>
+                <button class="qty-btn increase-qty" aria-label="Aumentar">+</button>
+              </div>
             </div>
+            <button class="item-remove" title="Remover">🗑</button>
           </li>
         `).join('')}
       </ul>
-      <button class="clear-cart" id="clear-cart">Limpar Carrinho</button>
+
+      <div class="cart-footer">
+        <div class="cart-row">
+          <span>Total:</span>
+          <strong>${BRL.format(total)}</strong>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="checkout">Finalizar compra</button>
+          <button class="btn btn-ghost" id="clear-cart">Limpar carrinho</button>
+        </div>
+      </div>
     </div>
   `;
+
+  // ações
   modal.querySelector('#close-cart').onclick = hideCartModal;
-  modal.querySelector('#clear-cart').onclick = () => {
-    Cart.clear();
-    renderCartModal(modal);
-  };
+
+  const clearBtn = modal.querySelector('#clear-cart');
+  if (clearBtn){
+    clearBtn.onclick = () => { Cart.clear(); renderCartModal(modal); };
+  }
+
+  // remover item
+  modal.querySelectorAll('.item-remove').forEach(btn => {
+    btn.onclick = () => {
+      const li = btn.closest('.cart-item');
+      const id = Number(li.dataset.id);
+      Cart.remove(id);
+      renderCartModal(modal);
+    };
+  });
+
+  // aumentar/diminuir
   modal.querySelectorAll('.increase-qty').forEach(btn => {
     btn.onclick = () => {
-      const id = Number(btn.dataset.id);
+      const li = btn.closest('.cart-item');
+      const id = Number(li.dataset.id);
       const item = Cart.items.find(i => i.id === id);
-      if (item) {
-        Cart.add(item);
-        renderCartModal(modal);
-      }
+      if (item) { Cart.add(item); renderCartModal(modal); }
     };
   });
+
   modal.querySelectorAll('.decrease-qty').forEach(btn => {
     btn.onclick = () => {
-      const id = Number(btn.dataset.id);
+      const li = btn.closest('.cart-item');
+      const id = Number(li.dataset.id);
       const item = Cart.items.find(i => i.id === id);
-      if (item) {
-        if (item.quantity > 1) {
-          item.quantity -= 1;
-          Cart.save();
-        } else {
-          Cart.remove(id);
-        }
-        renderCartModal(modal);
+      if (!item) return;
+      if (item.quantity > 1) {
+        item.quantity -= 1;
+        Cart.save();
+      } else {
+        Cart.remove(id);
       }
+      renderCartModal(modal);
     };
   });
+
+  // checkout (placeholder)
+  const checkout = modal.querySelector('#checkout');
+  if (checkout){
+    checkout.onclick = () => {
+      alert(`Total: ${BRL.format(subtotal(Cart.getItems()))}\n(implemente o fluxo de checkout aqui)`);
+    };
+  }
 }

@@ -13,7 +13,7 @@ export function showCartModal() {
   renderCartModal(modal);
   modal.style.display = 'block';
   requestAnimationFrame(() => modal.classList.add('open'));
-
+  document.body.classList.add('cart-open');
   modal.addEventListener('click', (e) => {
     if (e.target.id === 'cart-modal') hideCartModal();
   }, { once:true });
@@ -23,6 +23,7 @@ export function hideCartModal() {
   const modal = document.getElementById('cart-modal');
   if (!modal) return;
   modal.classList.remove('open');
+  document.body.classList.remove('cart-open');
   setTimeout(() => modal.style.display = 'none', 280);
 }
 
@@ -40,7 +41,6 @@ function renderCartModal(modal) {
         <h2>Seu carrinho ${items.length ? `<small style="color:var(--muted)">(${items.length} item${items.length>1?'s':''})</small>` : ''}</h2>
         <button class="close-cart" id="close-cart" aria-label="Fechar">&times;</button>
       </div>
-
       <ul class="cart-list">
         ${items.length === 0 ? `
           <li class="cart-empty">Carrinho vazio</li>
@@ -60,7 +60,6 @@ function renderCartModal(modal) {
           </li>
         `).join('')}
       </ul>
-
       <div class="cart-footer">
         <div class="cart-row">
           <span>Total:</span>
@@ -118,7 +117,7 @@ function renderCartModal(modal) {
   const checkout = modal.querySelector('#checkout');
   if (checkout){
     checkout.onclick = () => {
-      alert(`Total: ${BRL.format(subtotal(Cart.getItems()))}\n(implemente o fluxo de checkout aqui)`);
+      alert(`Total: ${BRL.format(subtotal(Cart.getItems()))}`);
     };
   }
 }

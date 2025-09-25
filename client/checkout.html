@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Checkout - E-commerce</title>
+  <link rel="stylesheet" href="styles/base.css" />
+  <link rel="stylesheet" href="styles/checkout.css" />
+  <link rel="icon" type="image/png" href="assets/ecommerce.png">
+</head>
+<body>
+  <header class="checkout-header container">
+    <a href="index.html" class="logo">← Voltar à loja</a>
+    <h1>Finalizar Compra</h1>
+  </header>
+
+  <main class="container checkout-main" id="main">
+    <section class="checkout-left" aria-labelledby="dados-title">
+      <div class="card">
+        <div class="card-header">
+          <h2 id="dados-title">Dados do cliente</h2>
+        </div>
+        <div class="card-body">
+          <form id="checkout-form" novalidate>
+            <div class="form-grid">
+              <label>
+                Nome completo
+                <input type="text" id="name" name="name" required />
+              </label>
+
+              <label>
+                E-mail
+                <input type="email" id="email" name="email" required />
+              </label>
+
+              <label>
+                Telefone
+                <input type="tel" id="phone" name="phone" placeholder="(83) 9xxxx-xxxx" required />
+              </label>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:1rem">
+        <div class="card-header">
+          <h2>Endereço</h2>
+        </div>
+        <div class="card-body">
+          <div class="form-grid">
+            <label>
+              CEP
+              <input type="text" id="cep" name="cep" inputmode="numeric" maxlength="9" placeholder="00000-000" aria-describedby="cep-msg" />
+            </label>
+            <div id="cep-msg" class="msg" aria-live="polite"></div>
+
+            <label>
+              Rua / Logradouro
+              <input type="text" id="street" name="street" />
+            </label>
+
+            <label>
+              Número
+              <input type="text" id="number" name="number" />
+            </label>
+
+            <label>
+              Bairro
+              <input type="text" id="district" name="district" />
+            </label>
+
+            <label>
+              Cidade
+              <input type="text" id="city" name="city" />
+            </label>
+
+            <label>
+              UF
+              <input type="text" id="uf" name="uf" maxlength="2" />
+            </label>
+          </div>
+          <p class="hint">Ao digitar 8 números no CEP, o sistema tentará preencher automaticamente as informações.</p>
+        </div>
+      </div>
+    </section>
+
+    <aside class="checkout-right" aria-labelledby="resumo-title">
+      <div class="card">
+        <div class="card-header">
+          <h2 id="resumo-title">Resumo do pedido</h2>
+        </div>
+        <div class="card-body" id="order-summary">
+          <!-- Itens e totais serão renderizados pelo checkout.js -->
+          <div class="empty">Carregando itens...</div>
+        </div>
+
+        <div class="card-footer">
+          <button id="confirm-order" class="btn btn-primary btn-block">Confirmar pedido</button>
+          <button id="cancel-order" class="btn btn-ghost btn-block" style="margin-top:8px">Cancelar</button>
+          <div id="form-errors" class="msg" aria-live="polite"></div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Mensagem de sucesso (hidden) -->
+  <div id="thanks-overlay" class="thanks-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="thanks-card">
+      <h2>Pedido confirmado 🎉</h2>
+      <p id="thanks-message">Agradecemos pela compra! Você receberá um e-mail com os detalhes.</p>
+      <div style="margin-top:16px;">
+        <a href="index.html" class="btn btn-success" id="back-to-store">Voltar à loja</a>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="services/checkout.js"></script>
+</body>
+</html>

@@ -1,6 +1,7 @@
+// client/components/cart/cartModal.js
 import Cart from './cart.js';
 
-const BRL = new Intl.NumberFormat('pt-BR', { style:'currency', currency:'BRL' });
+const BRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
 export function showCartModal() {
   let modal = document.getElementById('cart-modal');
@@ -16,7 +17,7 @@ export function showCartModal() {
   document.body.classList.add('cart-open');
   modal.addEventListener('click', (e) => {
     if (e.target.id === 'cart-modal') hideCartModal();
-  }, { once:true });
+  }, { once: true });
 }
 
 export function hideCartModal() {
@@ -27,7 +28,7 @@ export function hideCartModal() {
   setTimeout(() => modal.style.display = 'none', 280);
 }
 
-function subtotal(items){
+function subtotal(items) {
   return items.reduce((acc, it) => acc + (it.price * it.quantity), 0);
 }
 
@@ -38,7 +39,7 @@ function renderCartModal(modal) {
   modal.innerHTML = `
     <div class="cart-modal-content">
       <div class="cart-header">
-        <h2>Seu carrinho ${items.length ? `<small style="color:var(--muted)">(${items.length} item${items.length>1?'s':''})</small>` : ''}</h2>
+        <h2>Seu carrinho ${items.length ? `<small style="color:var(--muted)">(${items.length} item${items.length > 1 ? 's' : ''})</small>` : ''}</h2>
         <button class="close-cart" id="close-cart" aria-label="Fechar">&times;</button>
       </div>
       <ul class="cart-list">
@@ -76,7 +77,7 @@ function renderCartModal(modal) {
   modal.querySelector('#close-cart').onclick = hideCartModal;
 
   const clearBtn = modal.querySelector('#clear-cart');
-  if (clearBtn){
+  if (clearBtn) {
     clearBtn.onclick = () => { Cart.clear(); renderCartModal(modal); };
   }
 
@@ -115,9 +116,9 @@ function renderCartModal(modal) {
   });
 
   const checkout = modal.querySelector('#checkout');
-  if (checkout){
+  if (checkout) {
     checkout.onclick = () => {
-      alert(`Total: ${BRL.format(subtotal(Cart.getItems()))}`);
+      window.location.href = 'checkout.html';
     };
   }
 }

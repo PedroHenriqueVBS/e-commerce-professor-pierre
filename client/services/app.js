@@ -7,7 +7,7 @@ import { showCartModal } from '../components/cart/cartModal.js';
 let currentProducts = [...Products];
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Inicializar o slider
+  // Renderiza catálogo inicialmente
  
   
   renderCatalog(currentProducts);
@@ -58,6 +58,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  
+// Atualiza o contador do carrinho
   function updateCartCount() {
     const badge = document.getElementById('cart-count-badge');
     if (!badge) return;
@@ -66,6 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
     badge.textContent = total;
   }
 
+// Sincroniza o contador do carrinho em múltiplas abas
   window.addEventListener('storage', updateCartCount);
   ['add','remove','clear'].forEach(fn => {
     const original = Cart[fn];

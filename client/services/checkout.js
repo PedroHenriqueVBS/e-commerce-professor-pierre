@@ -4,6 +4,15 @@ import { fetchAddressByCEP } from './apiCEP/apiCep.js';
 
 const BRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
+// Helper para ajustar caminho das imagens baseado na localização atual
+function getImagePath(imagePath) {
+  // Se estamos em uma página dentro da pasta client/, remove o 'client/' do início
+  if (window.location.pathname.includes('/client/') && imagePath.startsWith('client/')) {
+    return imagePath.replace('client/', '');
+  }
+  return imagePath;
+}
+
 /* ELEMENTS */
 const orderSummary = document.getElementById('order-summary');
 const confirmBtn = document.getElementById('confirm-order');
@@ -47,7 +56,7 @@ function renderSummary() {
 
   const listHtml = items.map(it => `
     <div class="order-item" data-id="${it.id}">
-      <img src="${it.image}" alt="${it.name}" />
+      <img src="${getImagePath(it.image)}" alt="${it.name}" />
       <div class="it-info">
         <strong>${it.name}</strong>
         <small>${it.quantity} × ${BRL.format(it.price)}</small>

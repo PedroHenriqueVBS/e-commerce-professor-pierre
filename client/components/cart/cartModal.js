@@ -3,6 +3,15 @@ import Cart from './cart.js';
 
 const BRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
+// Helper para ajustar caminho das imagens baseado na localização atual
+function getImagePath(imagePath) {
+  // Se estamos em uma página dentro da pasta client/, remove o 'client/' do início
+  if (window.location.pathname.includes('/client/') && imagePath.startsWith('client/')) {
+    return imagePath.replace('client/', '');
+  }
+  return imagePath;
+}
+
 export function showCartModal() {
   let modal = document.getElementById('cart-modal');
   if (!modal) {
@@ -47,7 +56,7 @@ function renderCartModal(modal) {
           <li class="cart-empty">Carrinho vazio</li>
         ` : items.map(item => `
           <li class="cart-item" data-id="${item.id}">
-            <img src="${item.image}" alt="${item.name}" class="cart-img" />
+            <img src="${getImagePath(item.image)}" alt="${item.name}" class="cart-img" />
             <div class="cart-info">
               <strong>${item.name}</strong>
               <span>${BRL.format(item.price)}</span>
@@ -118,7 +127,7 @@ function renderCartModal(modal) {
   const checkout = modal.querySelector('#checkout');
   if (checkout) {
     checkout.onclick = () => {
-      window.location.href = 'checkout.html';
+      window.location.href = 'client/checkout.html';
     };
   }
 }

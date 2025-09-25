@@ -1,0 +1,75 @@
+/* Estilos do modal do carrinho */
+.cart-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  z-index: 1000;
+}
+.cart-modal-content {
+  background: #fff;
+  margin: 5% auto;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 400px;
+  position: relative;
+}
+.close-cart {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
+.cart-list {
+  list-style: none;
+  padding: 0;
+}
+.cart-list li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.cart-img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  margin-right: 1rem;
+  border-radius: 4px;
+}
+.cart-qty-controls {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  gap: 8px;
+}
+.cart-qty {
+  min-width: 24px;
+  text-align: center;
+  font-weight: bold;
+}
+.increase-qty, .decrease-qty {
+  background: #34495e;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  width: 28px;
+  height: 28px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.clear-cart {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 1rem;
+  width: 100%;
+}

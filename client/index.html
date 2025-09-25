@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="styles/catalog.css">
   <link rel="stylesheet" href="styles/index.css">
   <link rel="stylesheet" href="styles/modal.css">
+  <link rel="stylesheet" href="styles/cart.css">
   <link rel="icon" type="image/png" href="assets/ecommerce.png">
 </head>
 <body>
@@ -15,14 +16,14 @@
     <h1>E-commerce</h1>
     <nav>
       <a href="#contato">Contato</a>
-      <a href="cart.html" aria-label="Carrinho">
+      <button id="open-cart-modal" aria-label="Abrir Carrinho" class="cart-btn">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path d="M6 6h15l-1.5 9h-13z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           <circle cx="9" cy="20" r="1.5"/>
           <circle cx="18" cy="20" r="1.5"/>
         </svg>
         Carrinho
-      </a>
+      </button>
     </nav>
   </header>
   <div id="banner">
@@ -136,6 +137,15 @@
       </div>
     </div>
   </footer>
+
+  <button id="floating-cart-btn" aria-label="Abrir Carrinho" style="position:fixed;right:24px;bottom:24px;z-index:1100;background:#34495e;color:#fff;border:none;border-radius:50%;width:56px;height:56px;box-shadow:0 2px 8px rgba(0,0,0,0.2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:2rem;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path d="M6 6h15l-1.5 9h-13z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="9" cy="20" r="1.5"/>
+      <circle cx="18" cy="20" r="1.5"/>
+    </svg>
+    <span id="cart-count-badge" style="position:absolute;top:8px;right:8px;background:#e74c3c;color:#fff;border-radius:50%;padding:2px 7px;font-size:0.9rem;min-width:22px;text-align:center;line-height:1;">0</span>
+  </button>
 
   <script type="module" src="services/app.js"></script>
 </body>

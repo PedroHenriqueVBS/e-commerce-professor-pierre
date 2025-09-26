@@ -1,4 +1,3 @@
-// client/services/apiCEP/apiCep.js
 export async function fetchAddressByCEP(rawCep) {
   // Normaliza: remove tudo que não é dígito
   const cep = String(rawCep || '').replace(/\D/g, '');

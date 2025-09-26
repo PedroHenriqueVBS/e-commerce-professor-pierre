@@ -98,7 +98,6 @@ cepInput.addEventListener('input', e => {
       if (!res.ok) {
         cepMsg.textContent = res.message || 'CEP inválido.';
         cepMsg.style.color = 'var(--danger)';
-        // keep fields editable
         street.focus();
         return;
       }
@@ -153,13 +152,11 @@ confirmBtn.addEventListener('click', async () => {
   // valida form
   if (!validateForm()) return;
 
-  // recalcula e "simula" finalização
   const sub = subtotal(items);
   const ship = shippingCost(sub);
   const total = sub + ship;
 
-  // Aqui você colocaria integração com gateway (Stripe, Pagar.me, etc).
-  // Como entrega de funcionalidade imediata, vamos simular pedido finalizado.
+
   confirmBtn.disabled = true;
   confirmBtn.textContent = 'Processando...';
 
@@ -184,11 +181,9 @@ cancelBtn.addEventListener('click', () => {
   window.location.href = 'index.html';
 });
 
-/* Init */
+
 function init() {
   renderSummary();
-  // populate from localStorage (if houver) - já vem pelo Cart
-  // accessibility: se não houver itens, foco no link voltar
   const items = Cart.getItems();
   if (!items.length) document.querySelector('.logo').focus();
 }
